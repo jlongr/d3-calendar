@@ -15,11 +15,11 @@ var day = d3.time.format("%w"), // day of the week
     format = d3.time.format("%Y-%m-%d");
 
 var color = d3.scale.quantize()
-    .domain([-.05, .05])
+    .domain([0.005, .01])
     .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
 
 var svg = d3.select("#chart").selectAll("svg")
-    .data(d3.range(2008, 2011))
+    .data(d3.range(2016, 2017))
   .enter().append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -81,10 +81,10 @@ var tooltip = d3.select("body")
   .style("visibility", "hidden")
   .text("a simple tooltip");
 
-d3.csv("dji.csv", function(error, csv) {
+d3.csv("apd-crime-dates.csv", function(error, csv) {
   var data = d3.nest()
-    .key(function(d) { return d.Date; })
-    .rollup(function(d) { return (d[0].Close - d[0].Open) / d[0].Open; })
+    .key(function(d) { return d.date; })
+    .rollup(function(d) { return (d[0].crimes)/48827.0; })
     .map(csv);
 
   rect.filter(function(d) { return d in data; })
