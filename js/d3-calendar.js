@@ -15,7 +15,7 @@ var day = d3.time.format("%w"), // day of the week
     format = d3.time.format("%Y-%m-%d");
 
 var color = d3.scale.quantize()
-    .domain([0.005, .01])
+    .domain([0, 500])
     .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
 
 var svg = d3.select("#chart").selectAll("svg")
@@ -84,20 +84,20 @@ var tooltip = d3.select("body")
 d3.csv("apd-crime-dates.csv", function(error, csv) {
   var data = d3.nest()
     .key(function(d) { return d.date; })
-    .rollup(function(d) { return (d[0].crimes)/48827.0; })
+    .rollup(function(d) { return (d[0].crimes); })
     .map(csv);
 
   rect.filter(function(d) { return d in data; })
       .attr("class", function(d) { return "day " + color(data[d]); })
     .select("title")
-      .text(function(d) { return d + ": " + percent(data[d]); });
+      .text(function(d) { return d + ": " + data[d]; });
 
   //  Tooltip
   rect.on("mouseover", mouseover);
   rect.on("mouseout", mouseout);
   function mouseover(d) {
     tooltip.style("visibility", "visible");
-    var percent_data = (data[d] !== undefined) ? percent(data[d]) : percent(0);
+    var percent_data = (data[d] !== undefined) ? data[d] : 0; //percent(data[d]) : percent(0);
     var purchase_text = d + ": " + percent_data;
 
     tooltip.transition()
