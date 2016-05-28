@@ -1,3 +1,7 @@
+var START_YEAR = 2016;
+var END_YEAR   = 2017;
+var DATA_FILE  = "apd-crime-dates.csv";
+
 var width = 960,
     height = 750,
     cellSize = 25; // cell size
@@ -15,11 +19,11 @@ var day = d3.time.format("%w"), // day of the week
     format = d3.time.format("%Y-%m-%d");
 
 var color = d3.scale.quantize()
-    .domain([0, 500])
+    .domain([502, 160])
     .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
 
 var svg = d3.select("#chart").selectAll("svg")
-    .data(d3.range(2016, 2017))
+    .data(d3.range(START_YEAR, END_YEAR))
   .enter().append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -81,7 +85,7 @@ var tooltip = d3.select("body")
   .style("visibility", "hidden")
   .text("a simple tooltip");
 
-d3.csv("apd-crime-dates.csv", function(error, csv) {
+d3.csv(DATA_FILE, function(error, csv) {
   var data = d3.nest()
     .key(function(d) { return d.date; })
     .rollup(function(d) { return (d[0].crimes); })
