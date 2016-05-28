@@ -7,7 +7,7 @@ Using Kathy Zhou's alternative calendar visualization.
 http://bl.ocks.org/KathyZ/c2d4694c953419e0509b
 
 ## todo
-- [ ] invert color scale
+- [x] invert color scale
 - [ ] write data-formatting utility
 - [ ] feature: crime type selector
 
