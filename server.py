@@ -34,21 +34,42 @@ class Root(object):
     @cherrypy.expose
     def index(self, selection='THEFT'):
         cur = cherrypy.thread_data.db.cursor()
-        query = 'SELECT date, count(id) AS total from incident WHERE type = ? group by date'
+        page = ''
+
+        query = 'SELECT DISTINCT type FROM incident'
+        cur.execute(query)
+        commit()
+
+        params = cur.fetchall()
+        template = '<option value="{value}" onclick="location.href=\'index?selection={value}\'">{value}</option>'
+        content = ''
+        for p in params:
+            content += template
+            content = content.replace('{value}', p[0])
+
+        page += '<select>' +content+ '</select><br>'
+
+        query = '''SELECT date, count(id) AS total
+                   FROM incident WHERE type = ?
+                   GROUP BY date'''
         cur.execute(query, (selection,))
         commit()
 
         data = cur.fetchall()
-        template = '<li> {date} --- {value}</li>'
+        template = '<li> {date} . . . . . {value}</li>'
         content  = ''
         for d in data:
             content += template
-            content = content.replace("{date}", str(d[0]))
-            content = content.replace("{value}", str(d[1]))
+            content = content.replace('{date}', str(d[0]))
+            content = content.replace('{value}', str(d[1]))
 
-        return 'Incident Type: '+ selection +'<ul>'+content+'</ul>'
+        page += 'Incident Type: ' +selection+ '<ul>' +content+ '</ul>'
 
-    @cherrypy.expose
+        return page
+
+
+
+    #@cherrypy.expose
     def insert(self):
         value = ('hello world',)
         cur = cherrypy.thread_data.db.cursor()
