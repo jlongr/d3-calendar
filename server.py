@@ -3,10 +3,10 @@ import sqlite3 as sql
 import os, os.path
 
 #Name-bank.
-db         = 'name.db'
+db         = 'apd.db'
 sockethost = '127.0.0.1'
 socketport = 8080
-filepath   = 'home/jorge/server/'
+filepath   = 'home/jorge/Documents/GitHub/d3-calendar/'
 staticpath = filepath + 'public'
 
 ###[SQLITE BLOCK]###
