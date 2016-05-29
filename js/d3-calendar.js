@@ -1,6 +1,6 @@
 var START_YEAR = 2016;
 var END_YEAR   = 2017;
-var DATA_FILE  = "apd-crime-dates.csv";
+var DATA_FILE  = "static/data.csv";
 
 var MIN = Number.MAX_VALUE;
 var MAX = 0;

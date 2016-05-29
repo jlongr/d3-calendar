@@ -34,9 +34,10 @@ class Root(object):
     @cherrypy.expose
     def index(self, selection='THEFT'):
         cur = cherrypy.thread_data.db.cursor()
-        page = ''
+        inputctrl = ''
 
-        query = 'SELECT DISTINCT type FROM incident'
+        #incident type selector
+        query = 'SELECT DISTINCT type FROM incident ORDER BY type'
         cur.execute(query)
         commit()
 
@@ -47,8 +48,9 @@ class Root(object):
             content += template
             content = content.replace('{value}', p[0])
 
-        page += '<select>' +content+ '</select><br>'
+        inputctrl += '<select>' +content+ '</select><br>'
 
+        #aggregated data filtered by selection
         query = '''SELECT date, count(id) AS total
                    FROM incident WHERE type = ?
                    GROUP BY date'''
@@ -56,15 +58,22 @@ class Root(object):
         commit()
 
         data = cur.fetchall()
-        template = '<li> {date} . . . . . {value}</li>'
-        content  = ''
+        template = '{date},{value}\n'
+        content  = 'date,crimes\n'
         for d in data:
             content += template
-            content = content.replace('{date}', str(d[0]))
-            content = content.replace('{value}', str(d[1]))
 
-        page += 'Incident Type: ' +selection+ '<ul>' +content+ '</ul>'
+            datestring = str(d[0])
+            date = datestring[6:10]+ '-' +datestring[0:2]+ '-' +datestring[3:5]
 
+            value = str(d[1])
+
+            content = content.replace('{date}', date)
+            content = content.replace('{value}', value)
+
+        f = open('data.csv', 'w').write(content)
+
+        page = open("index.html", "r").read().replace("{inputctrl}", inputctrl)
         return page
 
 
@@ -94,7 +103,7 @@ if __name__ == '__main__':
         },
         '/static': {
             'tools.staticdir.on': True,
-            'tools.staticdir.dir': staticpath
+            'tools.staticdir.dir': ''
         }
     }
     #Set the app to listen on port <socketport> from the local address.
