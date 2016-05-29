@@ -30,9 +30,23 @@ def close():
 #Class for generating the web page object.
 class Root(object):
 
+    # Try localhost:8080/index?selection=DWI
     @cherrypy.expose
-    def index(self):
-        return 'init'
+    def index(self, selection='THEFT'):
+        cur = cherrypy.thread_data.db.cursor()
+        query = 'SELECT date, count(id) AS total from incident WHERE type = ? group by date'
+        cur.execute(query, (selection,))
+        commit()
+
+        data = cur.fetchall()
+        template = '<li> {date} --- {value}</li>'
+        content  = ''
+        for d in data:
+            content += template
+            content = content.replace("{date}", str(d[0]))
+            content = content.replace("{value}", str(d[1]))
+
+        return 'Incident Type: '+ selection +'<ul>'+content+'</ul>'
 
     @cherrypy.expose
     def insert(self):
