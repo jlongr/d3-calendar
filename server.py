@@ -32,7 +32,7 @@ class Root(object):
 
     # Try localhost:8080/index?selection=DWI
     @cherrypy.expose
-    def index(self, selection='AUTO THEFT'):
+    def index(self, selection='ALL INCIDENTS'):
         cur = cherrypy.thread_data.db.cursor()
 
         #incident type selector
@@ -41,7 +41,7 @@ class Root(object):
         commit()
 
         inputctrl = ''
-        content   = '''<option value="ALL INCIDENTS">ALL INCIDENTS</option>'''
+        content   = '''<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'''
         template  = '''<option value="{value}" {selected}>{value}</option>'''
         params = cur.fetchall()
         for p in params:
@@ -49,6 +49,8 @@ class Root(object):
             content = content.replace('{value}', p[0])
             if p[0] == selection:
                 content = content.replace('{selected}', 'selected')
+            else:
+                content = content.replace('{selected}', ' ').replace("{default}", "selected")
 
         inputctrl += '''<select onchange="location.href='index?selection='+this.value">''' +content+ '</select><br>'
 
@@ -88,17 +90,6 @@ class Root(object):
 
         page = open("index.html", "r").read().replace("{inputctrl}", inputctrl)
         return page
-
-
-
-    #@cherrypy.expose
-    def insert(self):
-        value = ('hello world',)
-        cur = cherrypy.thread_data.db.cursor()
-        query = "INSERT INTO table_name VALUES (null, ?);"
-        cur.execute(query, value)
-        commit()
-        return 'success'
 
     @cherrypy.expose
     def shutdown(self):
