@@ -41,7 +41,7 @@ class Root(object):
         commit()
 
         inputctrl = ''
-        content   = ''
+        content   = '''<option value="ALL INCIDENTS">ALL INCIDENTS</option>'''
         template  = '''<option value="{value}" {selected}>{value}</option>'''
         params = cur.fetchall()
         for p in params:
@@ -53,10 +53,19 @@ class Root(object):
         inputctrl += '''<select onchange="location.href='index?selection='+this.value">''' +content+ '</select><br>'
 
         #aggregated data filtered by selection
-        query = '''SELECT date, count(id) AS total
-                   FROM incident WHERE type = ?
-                   GROUP BY date'''
-        cur.execute(query, (selection,))
+        if selection == 'ALL INCIDENTS':
+            query = '''SELECT date, count(id) AS total
+                       FROM incident
+                       WHERE date LIKE '%2016'
+                       GROUP BY date'''
+            cur.execute(query)
+        else:
+            query = '''SELECT date, count(id) AS total
+                       FROM incident
+                       WHERE date LIKE '%2016'
+                         AND type = ?
+                       GROUP BY date'''
+            cur.execute(query, (selection,))
         commit()
 
         content  = 'date,crimes\n'
