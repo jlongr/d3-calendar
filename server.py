@@ -32,23 +32,25 @@ class Root(object):
 
     # Try localhost:8080/index?selection=DWI
     @cherrypy.expose
-    def index(self, selection='THEFT'):
+    def index(self, selection='AUTO THEFT'):
         cur = cherrypy.thread_data.db.cursor()
-        inputctrl = ''
 
         #incident type selector
         query = 'SELECT DISTINCT type FROM incident ORDER BY type'
         cur.execute(query)
         commit()
 
+        inputctrl = ''
+        content   = ''
+        template  = '''<option value="{value}" {selected}>{value}</option>'''
         params = cur.fetchall()
-        template = '<option value="{value}" onclick="location.href=\'index?selection={value}\'">{value}</option>'
-        content = ''
         for p in params:
             content += template
             content = content.replace('{value}', p[0])
+            if p[0] == selection:
+                content = content.replace('{selected}', 'selected')
 
-        inputctrl += '<select>' +content+ '</select><br>'
+        inputctrl += '''<select onchange="location.href='index?selection='+this.value">''' +content+ '</select><br>'
 
         #aggregated data filtered by selection
         query = '''SELECT date, count(id) AS total
@@ -57,12 +59,13 @@ class Root(object):
         cur.execute(query, (selection,))
         commit()
 
-        data = cur.fetchall()
-        template = '{date},{value}\n'
         content  = 'date,crimes\n'
+        template = '{date},{value}\n'
+        data = cur.fetchall()
         for d in data:
             content += template
 
+            #changing format from mm/dd/yyyy to yyyy-mm-dd
             datestring = str(d[0])
             date = datestring[6:10]+ '-' +datestring[0:2]+ '-' +datestring[3:5]
 
@@ -71,6 +74,7 @@ class Root(object):
             content = content.replace('{date}', date)
             content = content.replace('{value}', value)
 
+        #creates the csv file used by D3
         f = open('data.csv', 'w').write(content)
 
         page = open("index.html", "r").read().replace("{inputctrl}", inputctrl)
