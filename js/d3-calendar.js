@@ -11,9 +11,12 @@ d3.csv(DATA_FILE, function(error, csv) {
     .rollup(function(d) { return (d[0].crimes); })
     .map(csv);
 
+
   for(var d in data) {
-    if(MIN > data[d]) MIN = data[d];
-    if(MAX < data[d]) MAX = data[d];
+    var datum = parseInt(data[d]);
+    
+    if(MIN > datum) MIN = datum;
+    if(MAX < datum) MAX = datum;
   }
 
   var width = 960,
@@ -33,8 +36,14 @@ d3.csv(DATA_FILE, function(error, csv) {
       format = d3.time.format("%Y-%m-%d");
 
   var color = d3.scale.quantize()
-      .domain([MAX, MIN])
+      .domain([MAX, 0])
       .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
+
+  for(d=0; d <11; d++){
+      var arr = color.invertExtent("q"+d+"-11")
+      console.log("Range #" +d+ ": " +arr);
+      console.log("Size :" +(arr[0] - arr[1]) ) ;
+  }
 
   var svg = d3.select("#chart").selectAll("svg")
       .data(d3.range(START_YEAR, END_YEAR))
