@@ -2,6 +2,7 @@ var START_YEAR = 2016;
 var END_YEAR   = 2017;
 var DATA_FILE  = "static/data.csv";
 
+var COLOR_COUNT = 11;
 var MIN = Number.MAX_VALUE;
 var MAX = 0;
 
@@ -11,12 +12,15 @@ d3.csv(DATA_FILE, function(error, csv) {
     .rollup(function(d) { return (d[0].crimes); })
     .map(csv);
 
-
   for(var d in data) {
     var datum = parseInt(data[d]);
-    
+
     if(MIN > datum) MIN = datum;
     if(MAX < datum) MAX = datum;
+  }
+
+  if(MAX < COLOR_COUNT) {
+    MAX = COLOR_COUNT;
   }
 
   var width = 960,
@@ -37,9 +41,9 @@ d3.csv(DATA_FILE, function(error, csv) {
 
   var color = d3.scale.quantize()
       .domain([MAX, 0])
-      .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
+      .range(d3.range(COLOR_COUNT).map(function(d) { return "q" + d + "-11"; }));
 
-  for(d=0; d <11; d++){
+  for(d=0; d < COLOR_COUNT; d++){
       var arr = color.invertExtent("q"+d+"-11")
       console.log("Range #" +d+ ": " +arr);
       console.log("Size :" +(arr[0] - arr[1]) ) ;
