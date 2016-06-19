@@ -25,6 +25,19 @@ def commit():
 def close():
     cherrypy.thread_data.db.close()
 
+def writeData(file, headers, data):
+    f = open(file + '.csv', 'w')
+
+    #writes the headers
+    line = (",").join(headers) + "\n"
+    f.write(line)
+
+    #writes the data rows
+    for datum in data:
+        line = (",").join(datum) + "\n"
+        f.write(line)
+
+    f.close()
 
 ###[CHERRYPY BLOCK]###
 #Class for generating the web page object.
@@ -44,6 +57,9 @@ class Root(object):
         content   = '''<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'''
         template  = '''<option value="{value}" {selected}>{value}</option>'''
         params = cur.fetchall()
+
+        writeData('types', ['type'], params)
+
         for p in params:
             content += template
             content = content.replace('{value}', p[0])
