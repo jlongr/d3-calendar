@@ -1,5 +1,6 @@
 var START_YEAR = 2016;
 var END_YEAR   = 2017;
+var TYPE_FILE  = "static/types.csv";
 var DATA_FILE  = "static/data.csv";
 
 var COLOR_COUNT = 11;

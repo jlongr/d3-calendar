@@ -1,3 +1,7 @@
+d3.csv(TYPE_FILE)
+  .row(function(d) { return d.type })
+  .get(function(error, rows) { console.log(rows); });
+
 d3.csv(DATA_FILE, function(error, csv) {
   var data = d3.nest()
                .key(function(d) { return d.date; })
@@ -22,7 +26,7 @@ d3.csv(DATA_FILE, function(error, csv) {
 
 
   rect.filter(function(d) { return d in data; })
-      .attr("class", function(d) { 
+      .attr("class", function(d) {
         return "day " + color(data[d]);
       });
 
