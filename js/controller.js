@@ -30,28 +30,30 @@ d3.csv(DATA_FILE, function(error, csv) {
       .select("title")
         .text(function(d) { return d + ": " + data[d]; });
 
-    //  Tooltip
+    // Tooltip
     rect.on("mouseover", mouseover);
     rect.on("mouseout", mouseout);
 
     function mouseover(d) {
+      var count_data = (data[d] !== undefined) ? data[d] : 0;
+      var tooltip_text = d + ": " + count_data;
+
       tooltip.style("visibility", "visible");
-      var count_data = (data[d] !== undefined) ? data[d] : 0; //percent(data[d]) : percent(0);
-      var purchase_text = d + ": " + count_data;
 
       tooltip.transition()
-                  .duration(200)
-                  .style("opacity", .9);
-      tooltip.html(purchase_text)
-                  .style("left", (d3.event.pageX)+30 + "px")
-                  .style("top", (d3.event.pageY) + "px");
+             .duration(200)
+             .style("opacity", .9);
+
+      tooltip.html(tooltip_text)
+             .style("left", (d3.event.pageX)+30 + "px")
+             .style("top", (d3.event.pageY) + "px");
     }
 
     function mouseout (d) {
       tooltip.transition()
-              .duration(500)
-              .style("opacity", 0);
-      var $tooltip = $("#tooltip");
-      $tooltip.empty();
+             .duration(500)
+             .style("opacity", 0);
+
+      $("#tooltip").empty();
     }
 });
