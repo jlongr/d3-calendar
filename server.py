@@ -48,27 +48,16 @@ class Root(object):
     def index(self, selection='ALL INCIDENTS'):
         cur = cherrypy.thread_data.db.cursor()
 
+        f = open('selection.json', 'w').write('{"selection": "' +selection+ '"}')
+
         #incident type selector
         query = 'SELECT DISTINCT type FROM incident ORDER BY type'
         cur.execute(query)
         commit()
 
-        inputctrl = ''
-        content   = '''<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'''
-        template  = '''<option value="{value}" {selected}>{value}</option>'''
         params = cur.fetchall()
 
         writeData('types', ['type'], params)
-
-        for p in params:
-            content += template
-            content = content.replace('{value}', p[0])
-            if p[0] == selection:
-                content = content.replace('{selected}', 'selected')
-            else:
-                content = content.replace('{selected}', ' ').replace("{default}", "selected")
-
-        inputctrl += '''<select onchange="location.href='index?selection='+this.value">''' +content+ '</select><br>'
 
         #aggregated data filtered by selection
         if selection == 'ALL INCIDENTS':
@@ -104,7 +93,7 @@ class Root(object):
         #creates the csv file used by D3
         f = open('data.csv', 'w').write(content)
 
-        page = open("index.html", "r").read().replace("{inputctrl}", inputctrl)
+        page = open("index.html", "r").read()
         return page
 
     @cherrypy.expose

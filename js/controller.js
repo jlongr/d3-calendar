@@ -1,6 +1,30 @@
 d3.csv(TYPE_FILE)
   .row(function(d) { return d.type })
-  .get(function(error, rows) { console.log(rows); });
+  .get(function(error, data) {
+
+    var inputctrl = ''
+    var content   = '<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'
+    var template  = '<option value="{value}" {selected}>{value}</option>'
+
+    d3.json('static/selection.json', function(error, json) {
+
+      for(var d in data) {
+          content += template;
+          content = content.replace('{value}', data[d])
+                           .replace('{value}', data[d]);
+
+          data[d] === json.selection ?
+              content = content.replace('{selected}', 'selected') :
+              content = content.replace('{selected}', ' ').replace("{default}", "selected");
+      }
+
+      inputctrl += `<select onchange="location.href='index?selection='+this.value">` +content+ `</select><br>`;
+
+      var control = d3.select('span')
+                      .insert('div')
+                      .html(inputctrl);
+  });
+});
 
 d3.csv(DATA_FILE, function(error, csv) {
   var data = d3.nest()
@@ -57,9 +81,11 @@ d3.csv(DATA_FILE, function(error, csv) {
     $("#tooltip").empty();
   }
 
+  /* Prints color ranges to console.
   for(d=0; d < COLOR_COUNT; d++){
       var arr = color.invertExtent("q"+d+"-11")
 
       console.log("Range #" +d+ ": " +arr);
-  }
+  }*/
+
 });
