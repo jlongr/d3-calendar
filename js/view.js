@@ -3,8 +3,7 @@ var END_YEAR   = 2017;
 var DATA_FILE  = "static/data.csv";
 
 var COLOR_COUNT = 11;
-var MIN = Number.MAX_VALUE;
-var MAX = 0;
+var MAX = COLOR_COUNT;
 
 var width = 960,
     height = 750,
@@ -66,7 +65,7 @@ var month_titles = svg.selectAll(".month-title")  // Jan, Feb, Mar and the whatn
       .attr("class", "month-title")
       .attr("d", monthTitle);
 
-var year_titles = svg.selectAll(".year-title")  // Jan, Feb, Mar and the whatnot
+var year_titles = svg.selectAll(".year-title")
       .data(function(d) {
         return d3.time.years(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
     .enter().append("text")
