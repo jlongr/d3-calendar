@@ -53,6 +53,10 @@ def formatDates(resultSet):
 
     return data
 
+query = {"types":         "SELECT DISTINCT type FROM incident ORDER BY type",
+         "all_incidents": "SELECT date, count(id) AS total FROM incident WHERE date LIKE '%2016' GROUP BY date",
+         "one_incident":  "SELECT date, count(id) AS total FROM incident WHERE date LIKE '%2016' AND type = ? GROUP BY date"}
+
 ###[CHERRYPY BLOCK]###
 #Class for generating the web page object.
 class Root(object):
@@ -65,32 +69,19 @@ class Root(object):
         f = open('selection.json', 'w').write('{"selection": "' +selection+ '"}')
 
         #incident type selector
-        query = 'SELECT DISTINCT type FROM incident ORDER BY type'
-        cur.execute(query)
+        cur.execute(query["types"])
         commit()
 
-        params = cur.fetchall()
-
-        writeData('types', ['type'], params)
+        writeData('types', ['type'], cur.fetchall())
 
         #aggregated data filtered by selection
         if selection == 'ALL INCIDENTS':
-            query = '''SELECT date, count(id) AS total
-                       FROM incident
-                       WHERE date LIKE '%2016'
-                       GROUP BY date'''
-            cur.execute(query)
+            cur.execute(query["all_incidents"])
         else:
-            query = '''SELECT date, count(id) AS total
-                       FROM incident
-                       WHERE date LIKE '%2016'
-                         AND type = ?
-                       GROUP BY date'''
-            cur.execute(query, (selection,))
+            cur.execute(query["one_incident"], (selection,))
         commit()
 
-        resultSet = cur.fetchall()
-        data = formatDates(resultSet)
+        data = formatDates(cur.fetchall())
 
         writeData("data", ["date", "crimes"], data)
 
