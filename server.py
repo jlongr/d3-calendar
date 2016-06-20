@@ -34,7 +34,7 @@ def writeData(file, headers, data):
 
     #writes the data rows
     for datum in data:
-        line = (",").join(datum) + "\n"
+        line = (",").join( map(str,datum) ) + "\n"
         f.write(line)
 
     f.close()
@@ -75,23 +75,18 @@ class Root(object):
             cur.execute(query, (selection,))
         commit()
 
-        content  = 'date,crimes\n'
-        template = '{date},{value}\n'
-        data = cur.fetchall()
-        for d in data:
-            content += template
+        result = cur.fetchall()
+        data = []
 
+        for d in result:
             #changing format from mm/dd/yyyy to yyyy-mm-dd
             datestring = str(d[0])
             date = datestring[6:10]+ '-' +datestring[0:2]+ '-' +datestring[3:5]
 
             value = str(d[1])
+            data.append([date, value])
 
-            content = content.replace('{date}', date)
-            content = content.replace('{value}', value)
-
-        #creates the csv file used by D3
-        f = open('data.csv', 'w').write(content)
+        writeData("data", ["date", "crimes"], data)
 
         page = open("index.html", "r").read()
         return page
