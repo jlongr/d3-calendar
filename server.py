@@ -39,6 +39,20 @@ def writeData(file, headers, data):
 
     f.close()
 
+def formatDates(resultSet):
+    data = []
+
+    for row in resultSet:
+        datestring = str(row[0])
+        value = str(row[1])
+
+        #changing format from mm/dd/yyyy to yyyy-mm-dd
+        date = datestring[6:10]+ '-' +datestring[0:2]+ '-' +datestring[3:5]
+
+        data.append([date, value])
+
+    return data
+
 ###[CHERRYPY BLOCK]###
 #Class for generating the web page object.
 class Root(object):
@@ -75,16 +89,8 @@ class Root(object):
             cur.execute(query, (selection,))
         commit()
 
-        result = cur.fetchall()
-        data = []
-
-        for d in result:
-            #changing format from mm/dd/yyyy to yyyy-mm-dd
-            datestring = str(d[0])
-            date = datestring[6:10]+ '-' +datestring[0:2]+ '-' +datestring[3:5]
-
-            value = str(d[1])
-            data.append([date, value])
+        resultSet = cur.fetchall()
+        data = formatDates(resultSet)
 
         writeData("data", ["date", "crimes"], data)
 
