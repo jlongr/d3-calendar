@@ -6,19 +6,21 @@ d3.csv(TYPE_FILE)
     var content   = '<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'
     var template  = '<option value="{value}" {selected}>{value}</option>'
 
-    d3.json('static/selection.json', function(error, json) {
+    d3.json(SELECTION, function(error, selection) {
 
       for(var d in data) {
           content += template;
           content = content.replace('{value}', data[d])
                            .replace('{value}', data[d]);
 
-          data[d] === json.selection ?
+          data[d] === selection.value ?
               content = content.replace('{selected}', 'selected') :
               content = content.replace('{selected}', ' ').replace("{default}", "selected");
       }
 
-      inputctrl += `<select onchange="location.href='index?selection='+this.value">` +content+ `</select><br>`;
+      inputctrl += `<form id="type" method="post">
+                      <select name="selection" id="type-selector">` +content+ `</select>
+                    </form><br>`;
 
       var control = d3.select('span')
                       .insert('div')

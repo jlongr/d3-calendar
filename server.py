@@ -7,6 +7,7 @@ db         = 'apd.db'
 sockethost = '127.0.0.1'
 socketport = 8080
 filepath   = 'home/jorge/Documents/GitHub/d3-calendar/'
+datapath   = 'data/'
 staticpath = filepath + 'public'
 
 ###[SQLITE BLOCK]###
@@ -25,8 +26,8 @@ def commit():
 def close():
     cherrypy.thread_data.db.close()
 
-def writeData(file, headers, data):
-    f = open(file + '.csv', 'w')
+def writeCsv(file, headers, data):
+    f = open(datapath +file+ '.csv', 'w')
 
     #writes the headers
     line = (",").join(headers) + "\n"
@@ -66,13 +67,13 @@ class Root(object):
     def index(self, selection='ALL INCIDENTS'):
         cur = cherrypy.thread_data.db.cursor()
 
-        f = open('selection.json', 'w').write('{"selection": "' +selection+ '"}')
+        f = open(datapath +'selection.json', 'w').write('{"value": "' +selection+ '"}')
 
         #incident type selector
         cur.execute(query["types"])
         commit()
 
-        writeData('types', ['type'], cur.fetchall())
+        writeCsv('types', ['type'], cur.fetchall())
 
         #aggregated data filtered by selection
         if selection == 'ALL INCIDENTS':
@@ -83,7 +84,7 @@ class Root(object):
 
         data = formatDates(cur.fetchall())
 
-        writeData("data", ["date", "crimes"], data)
+        writeCsv("data", ["date", "crimes"], data)
 
         page = open("index.html", "r").read()
         return page

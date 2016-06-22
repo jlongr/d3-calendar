@@ -1,7 +1,8 @@
 var START_YEAR = 2016;
 var END_YEAR   = 2017;
-var TYPE_FILE  = "static/types.csv";
-var DATA_FILE  = "static/data.csv";
+var SELECTION  = "static/data/selection.json";
+var TYPE_FILE  = "static/data/types.csv";
+var DATA_FILE  = "static/data/data.csv";
 
 var COLOR_COUNT = 11;
 var MAX = COLOR_COUNT;
@@ -84,6 +85,10 @@ var tooltip = d3.select("body")
   .style("visibility", "hidden")
   .text("a simple tooltip");
 
+//Submits the incident-type selection.
+$("span").on("change", "#type-selector", function() {
+  $("#type").submit();
+});
 
 function dayTitle (t0) {
   return t0.toString().split(" ")[2];
