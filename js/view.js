@@ -86,7 +86,7 @@ var tooltip = d3.select("body")
   .text("a simple tooltip");
 
 //Submits the incident-type selection.
-$("span").on("change", "#type-selector", function() {
+$("span").on("change", "#type", function() {
   $("#type").submit();
 });
 

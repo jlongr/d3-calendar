@@ -18,8 +18,8 @@ d3.csv(TYPE_FILE)
               content = content.replace('{selected}', ' ').replace("{default}", "selected");
       }
 
-      inputctrl += `<form id="type" method="post">
-                      <select name="selection" id="type-selector">` +content+ `</select>
+      inputctrl += `<form id="type">
+                      <select name="selection">` +content+ `</select>
                     </form><br>`;
 
       var control = d3.select('span')
