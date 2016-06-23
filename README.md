@@ -10,7 +10,7 @@ http://bl.ocks.org/KathyZ/c2d4694c953419e0509b
 - [x] invert color scale
 - [ ] write data-formatting utility
 - [ ] host the page on a server
-- [ ] feature: crime type selector
+- [x] feature: crime type selector
 - [ ] feature: major event annotations
 
 ## notes

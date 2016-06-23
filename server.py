@@ -7,6 +7,7 @@ db         = 'apd.db'
 sockethost = '127.0.0.1'
 socketport = 8080
 filepath   = 'home/jorge/Documents/GitHub/d3-calendar/'
+datapath   = 'data/'
 staticpath = filepath + 'public'
 
 ###[SQLITE BLOCK]###
@@ -25,6 +26,37 @@ def commit():
 def close():
     cherrypy.thread_data.db.close()
 
+def writeCsv(file, headers, data):
+    f = open(datapath +file+ '.csv', 'w')
+
+    #writes the headers
+    line = (",").join(headers) + "\n"
+    f.write(line)
+
+    #writes the data rows
+    for datum in data:
+        line = (",").join( map(str,datum) ) + "\n"
+        f.write(line)
+
+    f.close()
+
+def formatDates(resultSet):
+    data = []
+
+    for row in resultSet:
+        date = str(row[0])
+        value = str(row[1])
+
+        #changing format from yyyy/mm/dd to yyyy-mm-dd
+        date = date.replace("/", "-")
+
+        data.append([date, value])
+
+    return data
+
+query = {"types":         "SELECT DISTINCT type FROM incident ORDER BY type",
+         "all_incidents": "SELECT date, count(id) AS total FROM incident GROUP BY date",
+         "one_incident":  "SELECT date, count(id) AS total FROM incident WHERE type = ? GROUP BY date"}
 
 ###[CHERRYPY BLOCK]###
 #Class for generating the web page object.
@@ -35,60 +67,26 @@ class Root(object):
     def index(self, selection='ALL INCIDENTS'):
         cur = cherrypy.thread_data.db.cursor()
 
+        f = open(datapath +'selection.json', 'w').write('{"value": "' +selection+ '"}')
+
         #incident type selector
-        query = 'SELECT DISTINCT type FROM incident ORDER BY type'
-        cur.execute(query)
+        cur.execute(query["types"])
         commit()
 
-        inputctrl = ''
-        content   = '''<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'''
-        template  = '''<option value="{value}" {selected}>{value}</option>'''
-        params = cur.fetchall()
-        for p in params:
-            content += template
-            content = content.replace('{value}', p[0])
-            if p[0] == selection:
-                content = content.replace('{selected}', 'selected')
-            else:
-                content = content.replace('{selected}', ' ').replace("{default}", "selected")
-
-        inputctrl += '''<select onchange="location.href='index?selection='+this.value">''' +content+ '</select><br>'
+        writeCsv('types', ['type'], cur.fetchall())
 
         #aggregated data filtered by selection
         if selection == 'ALL INCIDENTS':
-            query = '''SELECT date, count(id) AS total
-                       FROM incident
-                       WHERE date LIKE '%2016'
-                       GROUP BY date'''
-            cur.execute(query)
+            cur.execute(query["all_incidents"])
         else:
-            query = '''SELECT date, count(id) AS total
-                       FROM incident
-                       WHERE date LIKE '%2016'
-                         AND type = ?
-                       GROUP BY date'''
-            cur.execute(query, (selection,))
+            cur.execute(query["one_incident"], (selection,))
         commit()
 
-        content  = 'date,crimes\n'
-        template = '{date},{value}\n'
-        data = cur.fetchall()
-        for d in data:
-            content += template
+        data = formatDates(cur.fetchall())
 
-            #changing format from mm/dd/yyyy to yyyy-mm-dd
-            datestring = str(d[0])
-            date = datestring[6:10]+ '-' +datestring[0:2]+ '-' +datestring[3:5]
+        writeCsv("data", ["date", "crimes"], data)
 
-            value = str(d[1])
-
-            content = content.replace('{date}', date)
-            content = content.replace('{value}', value)
-
-        #creates the csv file used by D3
-        f = open('data.csv', 'w').write(content)
-
-        page = open("index.html", "r").read().replace("{inputctrl}", inputctrl)
+        page = open("index.html", "r").read()
         return page
 
     @cherrypy.expose
