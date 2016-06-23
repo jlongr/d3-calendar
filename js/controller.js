@@ -14,8 +14,10 @@ d3.csv(TYPE_FILE)
                            .replace('{value}', data[d]);
 
           data[d] === selection.value ?
-              content = content.replace('{selected}', 'selected') :
-              content = content.replace('{selected}', ' ').replace("{default}", "selected");
+              content = content.replace('{selected}', 'selected')
+                               .replace('{default}', ' ')         :
+              content = content.replace('{selected}', ' ')
+                               .replace("{default}", "selected");
       }
 
       inputctrl += `<form id="type">
@@ -85,7 +87,7 @@ d3.csv(DATA_FILE, function(error, csv) {
 
   /* Prints color ranges to console.
   for(d=0; d < COLOR_COUNT; d++){
-      var arr = color.invertExtent("q"+d+"-11")
+      var arr = color.invertExtent("q"+d+"-"+COLOR_COUNT)
 
       console.log("Range #" +d+ ": " +arr);
   }*/

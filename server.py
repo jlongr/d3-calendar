@@ -44,19 +44,19 @@ def formatDates(resultSet):
     data = []
 
     for row in resultSet:
-        datestring = str(row[0])
+        date = str(row[0])
         value = str(row[1])
 
-        #changing format from mm/dd/yyyy to yyyy-mm-dd
-        date = datestring[6:10]+ '-' +datestring[0:2]+ '-' +datestring[3:5]
+        #changing format from yyyy/mm/dd to yyyy-mm-dd
+        date = date.replace("/", "-")
 
         data.append([date, value])
 
     return data
 
 query = {"types":         "SELECT DISTINCT type FROM incident ORDER BY type",
-         "all_incidents": "SELECT date, count(id) AS total FROM incident WHERE date LIKE '%2016' GROUP BY date",
-         "one_incident":  "SELECT date, count(id) AS total FROM incident WHERE date LIKE '%2016' AND type = ? GROUP BY date"}
+         "all_incidents": "SELECT date, count(id) AS total FROM incident GROUP BY date",
+         "one_incident":  "SELECT date, count(id) AS total FROM incident WHERE type = ? GROUP BY date"}
 
 ###[CHERRYPY BLOCK]###
 #Class for generating the web page object.
