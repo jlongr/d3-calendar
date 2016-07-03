@@ -18,6 +18,10 @@ text.active {
   fill: red;
 }
 
+form {
+  font: 0.7em sans-serif;
+}
+
 .day {
   fill: #fff;
   stroke: #ccc;

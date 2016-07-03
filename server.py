@@ -54,7 +54,8 @@ def formatDates(resultSet):
 
     return data
 
-query = {"types":         "SELECT DISTINCT type FROM incident ORDER BY type",
+query = {"types_by_name": "SELECT type, count(id) AS total FROM incident GROUP BY type ORDER BY type ASC",
+         "types_by_freq": "SELECT type, count(id) AS total FROM incident GROUP BY type ORDER BY total DESC",
          "all_incidents": "SELECT date, count(id) AS total FROM incident GROUP BY date",
          "one_incident":  "SELECT date, count(id) AS total FROM incident WHERE type = ? GROUP BY date"}
 
@@ -64,16 +65,19 @@ class Root(object):
 
     # Try localhost:8080/index?selection=DWI
     @cherrypy.expose
-    def index(self, selection='ALL INCIDENTS'):
+    def index(self, selection='ALL INCIDENTS', sort='alpha'):
         cur = cherrypy.thread_data.db.cursor()
 
         f = open(datapath +'selection.json', 'w').write('{"value": "' +selection+ '"}')
 
         #incident type selector
-        cur.execute(query["types"])
+        if sort == 'alpha':
+            cur.execute(query["types_by_name"])
+        else:
+            cur.execute(query["types_by_freq"])
         commit()
 
-        writeCsv('types', ['type'], cur.fetchall())
+        writeCsv('types', ['type', 'total'], cur.fetchall())
 
         #aggregated data filtered by selection
         if selection == 'ALL INCIDENTS':

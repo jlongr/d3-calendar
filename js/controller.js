@@ -19,8 +19,9 @@ d3.csv(TYPE_FILE)
                                .replace("{default}", "selected");
       }
 
-      var control = d3.select('#type > select')
-                      .html(content);
+      d3.select('#type > select')
+        .html(content);
+
   });
 });
 
