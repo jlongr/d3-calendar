@@ -1,34 +1,38 @@
-d3.csv(TYPE_FILE)
-  .row(function(d) { return d.type })
-  .get(function(error, data) {
-
-    var content   = '<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'
-    var template  = '<option value="{value}" {selected}>{value}</option>'
-
-    d3.json(PARAMETERS, function(error, parameters) {
-
-      for(var d in data) {
-          content += template;
-          content = content.replace('{value}', data[d])
-                           .replace('{value}', data[d]);
-
-          data[d] === parameters.selection ?
-              content = content.replace('{selected}', 'selected')
-                               .replace('{default}', ' ')         :
-              content = content.replace('{selected}', ' ')
-                               .replace("{default}", "selected");
-      }
-
-      d3.select('#type > select')
-        .html(content);
-
-      d3.selectAll('#type > input')
-        .attr('checked', function() {
-          return (this.value === parameters.sort) ? true : false;
-        });
-
-  });
+d3.json(PARAMETERS, function(error, params) {
+  getTypes(params);
 });
+
+function getTypes(parameters) {
+  d3.csv(TYPE_FILE)
+    .row(function(d) { return d.type })
+    .get(function(error, data) {
+
+      var content   = '<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'
+      var template  = '<option value="{value}" {selected}>{value}</option>'
+
+        for(var d in data) {
+            content += template;
+            content = content.replace('{value}', data[d])
+                             .replace('{value}', data[d]);
+
+            data[d] === parameters.selection ?
+                content = content.replace('{selected}', 'selected')
+                                 .replace('{default}', ' ')         :
+                content = content.replace('{selected}', ' ')
+                                 .replace("{default}", "selected");
+        }
+
+        d3.select('#type > select')
+          .html(content);
+
+        d3.selectAll('#type > input')
+          .attr('checked', function() {
+            return (this.value === parameters.sort) ?
+              this.checked = true : this.checked = false;
+          });
+
+    });
+}
 
 d3.csv(DATA_FILE, function(error, csv) {
   var data = d3.nest()
