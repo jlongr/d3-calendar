@@ -5,14 +5,14 @@ d3.csv(TYPE_FILE)
     var content   = '<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'
     var template  = '<option value="{value}" {selected}>{value}</option>'
 
-    d3.json(SELECTION, function(error, selection) {
+    d3.json(PARAMETERS, function(error, parameters) {
 
       for(var d in data) {
           content += template;
           content = content.replace('{value}', data[d])
                            .replace('{value}', data[d]);
 
-          data[d] === selection.value ?
+          data[d] === parameters.selection ?
               content = content.replace('{selected}', 'selected')
                                .replace('{default}', ' ')         :
               content = content.replace('{selected}', ' ')
@@ -21,6 +21,11 @@ d3.csv(TYPE_FILE)
 
       d3.select('#type > select')
         .html(content);
+
+      d3.selectAll('#type > input')
+        .attr('checked', function() {
+          return (this.value === parameters.sort) ? true : false;
+        });
 
   });
 });

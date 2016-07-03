@@ -1,6 +1,6 @@
 var START_YEAR = 2016;
 var END_YEAR   = 2017;
-var SELECTION  = "static/data/selection.json";
+var PARAMETERS  = "static/data/parameters.json";
 var TYPE_FILE  = "static/data/types.csv";
 var DATA_FILE  = "static/data/data.csv";
 
@@ -86,7 +86,7 @@ var tooltip = d3.select("body")
   .text("a simple tooltip");
 
 //Submits the incident-type selection.
-$("#type").on("change", "select", function() {
+$("#type").on("change", "select, input", function() {
   $("#type").submit();
 });
 

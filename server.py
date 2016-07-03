@@ -68,7 +68,9 @@ class Root(object):
     def index(self, selection='ALL INCIDENTS', sort='alpha'):
         cur = cherrypy.thread_data.db.cursor()
 
-        f = open(datapath +'selection.json', 'w').write('{"value": "' +selection+ '"}')
+        f = open(datapath +'parameters.json', 'w')
+        f.write('{"selection": "' +selection+ '", "sort": "' +sort+ '"}')
+        f.close()
 
         #incident type selector
         if sort == 'alpha':
