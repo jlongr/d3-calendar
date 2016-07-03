@@ -2,7 +2,6 @@ d3.csv(TYPE_FILE)
   .row(function(d) { return d.type })
   .get(function(error, data) {
 
-    var inputctrl = ''
     var content   = '<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'
     var template  = '<option value="{value}" {selected}>{value}</option>'
 
@@ -20,13 +19,8 @@ d3.csv(TYPE_FILE)
                                .replace("{default}", "selected");
       }
 
-      inputctrl += `<form id="type">
-                      <select name="selection">` +content+ `</select>
-                    </form><br>`;
-
-      var control = d3.select('span')
-                      .insert('div')
-                      .html(inputctrl);
+      var control = d3.select('#type > select')
+                      .html(content);
   });
 });
 
