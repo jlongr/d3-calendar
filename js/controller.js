@@ -9,7 +9,12 @@ d3.csv(DATA_FILE, function(error, csv) {
     return parseInt(d.crimes);
   });
 
-  var domain = [MAX, 0];
+  MIN = d3.min(csv, function(d){
+    if(d.date.indexOf("2016") >= 0)
+      return parseInt(d.crimes);
+  });
+
+  var domain = [MAX, MIN];
   var range  = d3.range(COLOR_COUNT)
                  .map( function(d) {
                    return "q" +d+ "-" +COLOR_COUNT;

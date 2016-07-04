@@ -4,8 +4,9 @@ var PARAMETERS = "static/data/parameters.json";
 var TYPE_FILE  = "static/data/types.csv";
 var DATA_FILE  = "static/data/data.csv";
 
-var COLOR_COUNT = 11;
+var COLOR_COUNT = 5;
 var MAX = COLOR_COUNT;
+var MIN = 0;
 
 var width = 960,
     height = 750,
@@ -27,7 +28,7 @@ var svg = d3.select("#chart").selectAll("svg")
   .enter().append("svg")
     .attr("width", width)
     .attr("height", height)
-    .attr("class", "RdYlGn")
+    .attr("class", "YlOrRd")
   .append("g")
 
 var rect = svg.selectAll(".day")

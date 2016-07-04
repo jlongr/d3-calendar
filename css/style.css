@@ -37,17 +37,11 @@ form {
 }
 
 /* color ranges */
-.RdYlGn .q0-11{fill:rgb(165,0,38)}   /* reds */
-.RdYlGn .q1-11{fill:rgb(215,48,39)}
-.RdYlGn .q2-11{fill:rgb(244,109,67)}
-.RdYlGn .q3-11{fill:rgb(253,140,82)} /* oranges */
-.RdYlGn .q4-11{fill:rgb(253,174,97)}
-.RdYlGn .q5-11{fill:rgb(253,180,104)}
-.RdYlGn .q6-11{fill:rgb(254,190,111)}
-.RdYlGn .q7-11{fill:rgb(254,207,125)}
-.RdYlGn .q8-11{fill:rgb(254,224,139)} /* yellows */
-.RdYlGn .q9-11{fill:rgb(255,237,191)}
-.RdYlGn .q10-11{fill:rgb(255,248,220)}
+.YlOrRd .q0-5{fill:rgb(189,0,38)}
+.YlOrRd .q1-5{fill:rgb(240,59,32)}
+.YlOrRd .q2-5{fill:rgb(253,141,60)}
+.YlOrRd .q3-5{fill:rgb(254,204,92)}
+.YlOrRd .q4-5{fill:rgb(255,235,178)}
 /* white is reserved for zero */
 
 /* hover info */
