@@ -90,6 +90,13 @@ $("#type").on("change", "select, input", function() {
   $("#type").submit();
 });
 
+function replaceAll(token, value, template){
+  while(template.indexOf(token) >= 0){
+    template = template.replace(token, value);
+  }
+  return template;
+}
+
 function dayTitle (t0) {
   return t0.toString().split(" ")[2];
 }

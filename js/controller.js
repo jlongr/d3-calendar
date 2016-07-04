@@ -7,33 +7,25 @@ function getTypes(parameters) {
     .row(function(d) { return d.type })
     .get(function(error, data) {
 
-      var content   = '<option value="ALL INCIDENTS" {default}>ALL INCIDENTS</option>'
-      var template  = '<option value="{value}" {selected}>{value}</option>'
+      var content   = '<option value="ALL INCIDENTS">ALL INCIDENTS</option>'
+      var template  = '<option value="{value}">{value}</option>'
 
-        for(var d in data) {
-            content += template;
-            content = content.replace('{value}', data[d])
-                             .replace('{value}', data[d]);
+      for(var d in data) {
+          content += replaceAll('{value}', data[d], template);
+      }
 
-            data[d] === parameters.selection ?
-                content = content.replace('{selected}', 'selected')
-                                 .replace('{default}', ' ')         :
-                content = content.replace('{selected}', ' ')
-                                 .replace("{default}", "selected");
-        }
+      d3.select('#type select')
+        .html(content);
 
-        d3.select('#type > select')
-          .html(content);
+      d3.selectAll('select > option')
+        .property('selected', function(){
+          return (this.value === parameters.selection) ? true : false;
+        });
 
-        d3.selectAll('#type > input')
-          .property('checked', function(){
-            return (this.value === parameters.sort) ? true : false;
-          });
-          /*.attr('checked', function() { console.log(this);
-             (this.value === parameters.sort) ?
-              this.checked = true : this.checked = false;
-          });*/
-
+      d3.selectAll('#type input')
+        .property('checked', function(){
+          return (this.value === parameters.sort) ? true : false;
+        });
     });
 }
 
