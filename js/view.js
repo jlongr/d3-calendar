@@ -96,6 +96,26 @@ function replaceAll(token, value, template){
   return template;
 }
 
+function showTooltip(tooltip_text){
+  tooltip.style("visibility", "visible");
+
+  tooltip.transition()
+         .duration(200)
+         .style("opacity", .9);
+
+  tooltip.html(tooltip_text)
+         .style("left", (d3.event.pageX)+30 + "px")
+         .style("top", (d3.event.pageY) + "px");
+}
+
+function hideTooltip(){
+  tooltip.transition()
+         .duration(500)
+         .style("opacity", 0);
+
+  $("#tooltip").empty();
+}
+
 function dayTitle (t0) {
   return t0.toString().split(" ")[2];
 }

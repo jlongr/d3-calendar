@@ -33,23 +33,11 @@ d3.csv(DATA_FILE, function(error, csv) {
     var count_data = data[d] || 0;
     var tooltip_text = d + ": " + count_data;
 
-    tooltip.style("visibility", "visible");
-
-    tooltip.transition()
-           .duration(200)
-           .style("opacity", .9);
-
-    tooltip.html(tooltip_text)
-           .style("left", (d3.event.pageX)+30 + "px")
-           .style("top", (d3.event.pageY) + "px");
+    showTooltip(tooltip_text);
   }
 
   function mouseout (d) {
-    tooltip.transition()
-           .duration(500)
-           .style("opacity", 0);
-
-    $("#tooltip").empty();
+    hideTooltip();
   }
 
   /* Prints color ranges to console.
