@@ -26,10 +26,13 @@ function getTypes(parameters) {
           .html(content);
 
         d3.selectAll('#type > input')
-          .attr('checked', function() {
-            return (this.value === parameters.sort) ?
-              this.checked = true : this.checked = false;
+          .property('checked', function(){
+            return (this.value === parameters.sort) ? true : false;
           });
+          /*.attr('checked', function() { console.log(this);
+             (this.value === parameters.sort) ?
+              this.checked = true : this.checked = false;
+          });*/
 
     });
 }
