@@ -1,6 +1,6 @@
 var START_YEAR = 2016;
 var END_YEAR   = 2017;
-var PARAMETERS  = "static/data/parameters.json";
+var PARAMETERS = "static/data/parameters.json";
 var TYPE_FILE  = "static/data/types.csv";
 var DATA_FILE  = "static/data/data.csv";
 
@@ -20,7 +20,6 @@ var day = d3.time.format("%w"), // day of the week
     week = d3.time.format("%U"), // week number of the year
     month = d3.time.format("%m"), // month number
     year = d3.time.format("%Y"),
-    percent = d3.format(".1%"),
     format = d3.time.format("%Y-%m-%d");
 
 var svg = d3.select("#chart").selectAll("svg")
