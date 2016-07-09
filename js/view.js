@@ -7,6 +7,9 @@ var DATA_FILE  = "static/data/data.csv";
 var COLOR_COUNT = 5;
 var MAX = COLOR_COUNT;
 var MIN = 0;
+var MEAN;
+var MEDIAN;
+var STD_DEV;
 
 var width = 960,
     height = 750,
@@ -90,6 +93,7 @@ $("#type").on("change", "select, input", function() {
   $("#type").submit();
 });
 
+//Shortcut function to replace all tokens in a string.
 function replaceAll(token, value, template){
   while(template.indexOf(token) >= 0){
     template = template.replace(token, value);
@@ -97,6 +101,31 @@ function replaceAll(token, value, template){
   return template;
 }
 
+/* Descriptive statistic functions */
+function generateStatistics(data) {
+
+  MAX = d3.max(data, function(d){
+    return parseInt(d.crimes);
+  });
+
+  MIN = d3.min(data, function(d){
+      return parseInt(d.crimes);
+  });
+
+  MEAN = d3.mean(data, function(d){
+      return parseInt(d.crimes);
+  });
+
+  MEDIAN = d3.median(data, function(d){
+    return parseInt(d.crimes);
+  });
+
+  STD_DEV = d3.deviation(data, function(d){
+      return parseInt(d.crimes);
+  });
+}
+
+/* Tooltip-rendering functions */
 function showTooltip(tooltip_text){
   tooltip.style("visibility", "visible");
 
@@ -117,6 +146,7 @@ function hideTooltip(){
   $("#tooltip").empty();
 }
 
+/* Date-formatting functions */
 function dayTitle (t0) {
   return t0.toString().split(" ")[2];
 }

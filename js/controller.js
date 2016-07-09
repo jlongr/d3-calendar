@@ -4,15 +4,12 @@ d3.csv(DATA_FILE, function(error, csv) {
                .rollup(function(d) { return (d[0].crimes); })
                .map(csv);
 
+  //Max, min, standard dev, etc.
+  generateStatistics(csv.filter(function(d) {
+    return d.date.indexOf("2016") >= 0;
+  }));
 
-  MAX = d3.max(csv, function(d){
-    return parseInt(d.crimes);
-  });
-
-  MIN = d3.min(csv, function(d){
-    if(d.date.indexOf("2016") >= 0)
-      return parseInt(d.crimes);
-  });
+  console.log(MAX, MIN, MEAN, STD_DEV);
 
   var domain = [MAX, MIN];
   var range  = d3.range(COLOR_COUNT)
