@@ -6,12 +6,20 @@
   </head>
     <body>
 
+      <div id="select-panel">
       <form id="type">
+        <span>
+        Sort List By: &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="sort" value="alpha" />
+          <label>Name</label>
+        &nbsp;
+        <input type="radio" name="sort" value="numeric" />
+          <label>Frequency</label>
+        </span>
+        <br><br>
         <select name="selection"></select>
-        <br>Sort List By:
-        <input type="radio" name="sort" value="alpha">Name</input>
-        <input type="radio" name="sort" value="numeric">Frequency</input>
       </form><br>
+      </div>
 
       <div id="chart" class="clearfix"></div>
 
