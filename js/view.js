@@ -109,11 +109,11 @@ function generateStatistics(data) {
   });
 
   MIN = d3.min(data, function(d){
-      return parseInt(d.crimes);
+    return parseInt(d.crimes);
   });
 
   MEAN = d3.mean(data, function(d){
-      return parseInt(d.crimes);
+    return parseInt(d.crimes);
   });
 
   MEDIAN = d3.median(data, function(d){
@@ -121,7 +121,7 @@ function generateStatistics(data) {
   });
 
   STD_DEV = d3.deviation(data, function(d){
-      return parseInt(d.crimes);
+    return parseInt(d.crimes);
   });
 }
 
