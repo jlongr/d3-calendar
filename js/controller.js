@@ -10,7 +10,7 @@ d3.csv(DATA_FILE, function(error, csv) {
   }));
 
   console.log(MAX, MIN, MEAN, STD_DEV);
-  let choice = 'sequential';
+  let choice = 'diverging';
 
   if(choice === 'sequential') {
     var domain = [MAX, MIN];
@@ -30,15 +30,9 @@ d3.csv(DATA_FILE, function(error, csv) {
         });
   }
   else {
-    let domain = [MIN, MAX];
-    let range = d3.range(COLOR_COUNT)
-                   .map( function(d) {
-                     return "q" +d+ "-" +COLOR_COUNT;
-                   });
-
     let color = function(d) {
-       let classes = {"-3": "q0-5", "-2": "q1-5", "-1": "q2-5",
-                     "1": "q2-5",  "2": "q3-5",  "3": "q4-5"};
+       let classes = {"-3": "q4-5", "-2": "q3-5", "-1": "q2-5",
+                     "1": "q2-5",  "2": "q1-5",  "3": "q0-5"};
 
        let sigma = function(n) {
          return MEAN+(n*STD_DEV);
@@ -50,16 +44,23 @@ d3.csv(DATA_FILE, function(error, csv) {
          if(n==0) continue;
 
          if(n<0) {
-           if (sigma(n) <= d && d <= sigma(n+1))   value = classes[n];
+           if (sigma(n) <= d && d <= sigma(n+1))
+            value = classes[n];
          }
 
          if(n>0) {
-           if (sigma(n-1) <= d && d <= sigma(n))   value = classes[n];
+           if (sigma(n-1) <= d && d <= sigma(n))
+            value = classes[n];
          }
        }
 
        return value;
    };
+
+   rect.filter(function(d) { return d in data; })
+       .attr("class", function(d) {
+         return "day " + color(data[d]);
+       });
   }
 
   // Tooltip
