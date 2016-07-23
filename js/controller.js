@@ -10,13 +10,14 @@ d3.csv(DATA_FILE, function(error, csv) {
   }));
 
   console.log(MAX, MIN, MEAN, STD_DEV);
-  let choice = 'diverging';
 
-  if(choice === 'sequential') {
+  if(COLOR_SCALE === 'sequential') {
+    $("#seq").attr("checked", "checked");
+
     var domain = [MAX, MIN];
     var range  = d3.range(COLOR_COUNT)
                    .map( function(d) {
-                     return "q" +d+ "-" +COLOR_COUNT;
+                     return "seq-q" +d+ "-" +COLOR_COUNT;
                    });
 
     var color = d3.scale.quantize()
@@ -29,10 +30,13 @@ d3.csv(DATA_FILE, function(error, csv) {
           return "day " + color(data[d]);
         });
   }
-  else {
+
+  if(COLOR_SCALE === 'diverging') {
+    $("#div").attr("checked", "checked");
+
     let color = function(d) {
-       let classes = {"-3": "q4-5", "-2": "q3-5", "-1": "q2-5",
-                     "1": "q2-5",  "2": "q1-5",  "3": "q0-5"};
+       let classes = {"-3": "div-q4-5", "-2": "div-q3-5", "-1": "div-q2-5",
+                     "1": "div-q2-5",  "2": "div-q1-5",  "3": "div-q0-5"};
 
        let sigma = function(n) {
          return MEAN+(n*STD_DEV);

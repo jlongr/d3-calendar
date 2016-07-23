@@ -4,8 +4,10 @@ var PARAMETERS = "static/data/parameters.json";
 var TYPE_FILE  = "static/data/types.csv";
 var DATA_FILE  = "static/data/data.csv";
 
-var COLOR_CLASS = "RdYlGn";
+var COLOR_SCALE = localStorage.scale;
+var COLOR_CLASS = (COLOR_SCALE === 'sequential') ? 'YlOrRd' : 'RdYlGn';
 var COLOR_COUNT = 5;
+
 var MAX = COLOR_COUNT;
 var MIN = 0;
 var MEAN;
@@ -92,6 +94,11 @@ var tooltip = d3.select("body")
 //Submits the incident-type selection.
 $("#type").on("change", "select, input", function() {
   $("#type").submit();
+});
+
+$("#scale").on("change", "input", function() {
+  localStorage.scale = ($("#seq").is(":checked")) ? 'sequential' : 'diverging';
+  location.reload();
 });
 
 //Shortcut function to replace all tokens in a string.

@@ -12,14 +12,25 @@ p {
 }
 
 #chart{
-  width: 800px;
+  width: 700px;
   margin: 0 auto;
 }
 
-#select-panel {
+#control-panel {
   width: 20%;
   border: 2px solid #ccc;
   padding:10px;
+  float: left;
+}
+
+#color-scale {
+  border: 1px solid #ccc;
+  padding: 0px 0px 3px 3px;
+}
+
+#type-select {
+  border: 1px solid #ccc;
+  padding: 0px 0px 3px 3px;
 }
 
 #tooltip {
@@ -59,15 +70,15 @@ form {
 }
 
 /* sequential color scale */
-.YlOrRd .q0-5{fill:rgb(189,0,38)}
-.YlOrRd .q1-5{fill:rgb(240,59,32)}
-.YlOrRd .q2-5{fill:rgb(253,141,60)}
-.YlOrRd .q3-5{fill:rgb(254,204,92)}
-.YlOrRd .q4-5{fill:rgb(255,235,178)}
+.YlOrRd .seq-q0-5{fill:rgb(189,0,38)}
+.YlOrRd .seq-q1-5{fill:rgb(240,59,32)}
+.YlOrRd .seq-q2-5{fill:rgb(253,141,60)}
+.YlOrRd .seq-q3-5{fill:rgb(254,204,92)}
+.YlOrRd .seq-q4-5{fill:rgb(255,235,178)}
 
 /* diverging color scale */
-.RdYlGn .q0-5{fill:rgb(215,25,28)}
-.RdYlGn .q1-5{fill:rgb(253,174,97)}
-.RdYlGn .q2-5{fill:rgb(255,255,191)}
-.RdYlGn .q3-5{fill:rgb(166,217,106)}
-.RdYlGn .q4-5{fill:rgb(26,150,65)}
+.RdYlGn .div-q0-5{fill:rgb(215,25,28)}
+.RdYlGn .div-q1-5{fill:rgb(253,174,97)}
+.RdYlGn .div-q2-5{fill:rgb(255,255,191)}
+.RdYlGn .div-q3-5{fill:rgb(166,217,106)}
+.RdYlGn .div-q4-5{fill:rgb(26,150,65)}

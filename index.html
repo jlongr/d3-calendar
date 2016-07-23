@@ -6,19 +6,31 @@
   </head>
     <body>
 
-      <div id="select-panel">
-      <form id="type">
-        <span>
-        Sort List By: &nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="radio" name="sort" value="alpha" />
-          <label>Name</label>
-        &nbsp;
-        <input type="radio" name="sort" value="numeric" />
-          <label>Frequency</label>
-        </span>
-        <br><br>
-        <select name="selection"></select>
-      </form><br>
+      <div id="control-panel">
+        <form id="scale">
+          <div id="color-scale">
+            Color Scale: &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="scale" id="seq" value="sequential">
+              <label>Sequential</label>
+              &nbsp;
+            <input type="radio" name="scale" id="div" value="diverging" checked>
+              <label>Diverging</label>
+          </div>
+        </form>
+        <br>
+        <form id="type">
+          <div id="type-select">
+            Sort List By: &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="sort" value="alpha" />
+              <label>Name</label>
+            &nbsp;
+            <input type="radio" name="sort" value="numeric" />
+              <label>Frequency</label>
+
+            <br><br>
+            <select name="selection"></select>
+          </div>
+        </form><br>
       </div>
 
       <div id="chart" class="clearfix"></div>
