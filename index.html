@@ -5,22 +5,44 @@
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
   </head>
     <body>
-
       <div id="control-panel">
+        <h3>APD Crime Visualization</h3>
+        <p>
+          Hover your cursor over the cells to see a count of reported criminal
+          incidents in Austin, TX for that particular date.
+          <br><br>
+        </p>
         <form id="scale">
           <div id="color-scale">
-            Color Scale: &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Color Scale:</b> &nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" name="scale" id="seq" value="sequential">
               <label>Sequential</label>
               &nbsp;
             <input type="radio" name="scale" id="div" value="diverging" checked>
               <label>Diverging</label>
+
+            <p id="sequential-desc">
+              The sequential color scale renders progressively darker colors when
+              there is a higher frequency of incidents.
+              <br><br>
+              If there are no incidents reported for a particular day or there
+              is no data available yet, then the square is left blank.
+            </p>
+
+            <p id="diverging-desc">
+              The diverging color scale renders progressively darker colors when
+              the count of incidents for a given day falls within one, two, or three
+              standard deviations from the mean.
+              <br><br>
+              Shades of green represent fewer incidents than average, whereas
+              shades of red represent the opposite.
+            </p>
           </div>
         </form>
         <br>
         <form id="type">
           <div id="type-select">
-            Sort List By: &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Sort List By:</b> &nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" name="sort" value="alpha" />
               <label>Name</label>
             &nbsp;
@@ -29,6 +51,14 @@
 
             <br><br>
             <select name="selection"></select>
+            <p>
+              You can select the type of crime from the drop-down list above and see
+              the distribution of reported incidents for that particular category.
+              <br><br>
+              Sorting the drop-down list by frequency will make it easier to find
+              interesting categories to examine. The option to view all incidents
+              will always be at the top.
+            </p>
           </div>
         </form><br>
       </div>

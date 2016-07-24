@@ -13,6 +13,7 @@ d3.csv(DATA_FILE, function(error, csv) {
 
   if(COLOR_SCALE === 'sequential') {
     $("#seq").attr("checked", "checked");
+    $("#diverging-desc").hide();
 
     var domain = [MAX, MIN];
     var range  = d3.range(COLOR_COUNT)
@@ -33,6 +34,7 @@ d3.csv(DATA_FILE, function(error, csv) {
 
   if(COLOR_SCALE === 'diverging') {
     $("#div").attr("checked", "checked");
+    $("#sequential-desc").hide();
 
     let color = function(d) {
        let classes = {"-3": "div-q4-5", "-2": "div-q3-5", "-1": "div-q2-5",

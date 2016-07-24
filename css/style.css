@@ -7,11 +7,16 @@ input, label {
   vertical-align: bottom;
 }
 
-p {
-  text-align: left;
+form {
+  font: 0.7em sans-serif;
 }
 
-#chart{
+p {
+  text-align: left;
+  font-size: 12px;
+}
+
+#chart {
   width: 700px;
   margin: 0 auto;
 }
@@ -49,10 +54,6 @@ line {
 
 text.active {
   fill: red;
-}
-
-form {
-  font: 0.7em sans-serif;
 }
 
 .day {
