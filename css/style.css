@@ -1,5 +1,6 @@
 body {
   font: 1.1em sans-serif;
+  background-color: #eefeee;
 }
 
 input, label {
@@ -26,6 +27,10 @@ p {
   border: 2px solid #ccc;
   padding:10px;
   float: left;
+  background-color: #ffffff;
+  position: absolute;
+  top: 50px;
+  left: 25px;
 }
 
 #color-scale {
